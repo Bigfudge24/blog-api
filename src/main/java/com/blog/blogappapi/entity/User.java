@@ -14,11 +14,11 @@ public class User {
     private int uId;
     @Column(name = "user_name",nullable = false,length = 100)
     private String name;
-    @Column(name = "user_email",nullable = false,length = 100)
+    @Column(name = "user_email")
     private String email;
-    @Column(name = "user_password",nullable = false,length = 100)
+    @Column(name = "user_password")
     private String password;
-    @Column(name = "user_about",nullable = false,length = 100)
+    @Column(name = "user_about")
     private String about;
     public User() {
     }
