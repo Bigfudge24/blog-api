@@ -4,6 +4,7 @@ import java.util.Date;
 
 
 public class PostDto {
+	private int pId;
 	private String title;
 	private String content;
 	private String imageName;
@@ -13,6 +14,14 @@ public class PostDto {
 	
 	public PostDto() {
 		
+	}
+
+	public int getpId() {
+		return pId;
+	}
+
+	public void setpId(int pId) {
+		this.pId = pId;
 	}
 
 	public String getTitle() {
