@@ -7,7 +7,7 @@ public class PostResponse {
 	private List<PostDto> content;
 	private int pageNumber;
 	private int pageSize;
-	private int totalElemts;
+	private long totalElemts;
 	private int totalPages;
 	private boolean lastPage;
 	
@@ -39,11 +39,11 @@ public class PostResponse {
 		this.pageSize = pageSize;
 	}
 
-	public int getTotalElemts() {
+	public long getTotalElemts() {
 		return totalElemts;
 	}
 
-	public void setTotalElemts(int totalElemts) {
+	public void setTotalElemts(Long totalElemts) {
 		this.totalElemts = totalElemts;
 	}
 

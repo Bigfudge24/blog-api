@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.blog.blogappapi.entity.Post;
 import com.blog.blogappapi.payloads.PostDto;
+import com.blog.blogappapi.payloads.PostResponse;
 
 public interface PostService {
 	PostDto createPost(PostDto postDto,Integer userId,Integer categoryId);
 	PostDto updatePost(PostDto postDto,Integer postId);
 	void deletePost(Integer postId);
-	List<PostDto> getAllPost(Integer pageNumber,Integer pageSize);
+	PostResponse getAllPost(Integer pageNumber,Integer pageSize);
 	PostDto getPostById(Integer postId);
 	List<PostDto> getPostByCategory(Integer catergoryId);
 	List<PostDto> getPostByUser(Integer userId);
