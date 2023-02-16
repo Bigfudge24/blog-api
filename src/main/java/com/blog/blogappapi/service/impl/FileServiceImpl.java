@@ -1,0 +1,57 @@
+package com.blog.blogappapi.service.impl;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.blog.blogappapi.service.FileService;
+
+@Service
+public class FileServiceImpl implements FileService {
+
+	@Override
+	public String uploadImage(String path, MultipartFile file) throws IOException {
+		//File name 
+        String name=file.getOriginalFilename();
+        //random name generate
+        String randomId = UUID.randomUUID().toString();
+        String fileName1= randomId.concat(name.substring(name.lastIndexOf(".")));
+        //Full path
+        String filePath=path+File.separator+fileName1;
+        //Create folder if not created
+        File f=new File(path);
+        if(!f.exists()){
+            f.mkdir();
+        }
+        //file copy
+        try {
+            Files.copy(file.getInputStream(), Paths.get(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileName1;
+		
+	}
+
+	@Override
+	public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+		String fullpath=path+File.separator+fileName;
+        try{
+            InputStream is = new FileInputStream(fullpath);
+            return is;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+	}
+
+}
