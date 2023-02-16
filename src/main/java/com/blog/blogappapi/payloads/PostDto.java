@@ -1,6 +1,10 @@
 package com.blog.blogappapi.payloads;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.blog.blogappapi.entity.Comment;
 
 
 public class PostDto {
@@ -11,6 +15,7 @@ public class PostDto {
 	private Date addedDate;
 	private CategoryDto category;
 	private UserDto user;
+	private Set<CommentDto> commentsDto=new HashSet<>();
 	
 	public PostDto() {
 		
@@ -71,6 +76,16 @@ public class PostDto {
 	public void setUser(UserDto user) {
 		this.user = user;
 	}
+
+	public Set<CommentDto> getCommentsDto() {
+		return commentsDto;
+	}
+
+	public void setCommentsDto(Set<CommentDto> commentsDto) {
+		this.commentsDto = commentsDto;
+	}
+
+	
 
 	
 	
