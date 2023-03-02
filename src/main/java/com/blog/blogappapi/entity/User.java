@@ -22,8 +22,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,48 +50,48 @@ public class User implements UserDetails{
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "uId"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
 	private Set<Role> roles = new HashSet<>();
 
-	public User() {
-	}
-
-	public int getuId() {
-		return uId;
-	}
-
-	public void setuId(int uId) {
-		this.uId = uId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getAbout() {
-		return about;
-	}
-
-	public void setAbout(String about) {
-		this.about = about;
-	}
+//	public User() {
+//	}
+//
+//	public int getuId() {
+//		return uId;
+//	}
+//
+//	public void setuId(int uId) {
+//		this.uId = uId;
+//	}
+//
+//	public String getName() {
+//		return name;
+//	}
+//
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
+//
+//	public String getPassword() {
+//		return password;
+//	}
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
+//
+//	public String getAbout() {
+//		return about;
+//	}
+//
+//	public void setAbout(String about) {
+//		this.about = about;
+//	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -114,6 +122,11 @@ public class User implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.getPassword();
 	}
 
 }
