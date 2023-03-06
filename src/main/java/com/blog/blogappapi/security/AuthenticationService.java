@@ -2,6 +2,7 @@ package com.blog.blogappapi.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.var;
 import com.blog.blogappapi.entity.User;
+import com.blog.blogappapi.exceptions.ApiException;
 import com.blog.blogappapi.repository.UserRepository;
 
 
@@ -37,15 +39,14 @@ public class AuthenticationService {
 										.build();
 					
 	}
-	public JwtAuthResponse authneticate(AuthenticationRequest request){
-		authenticationManager.authenticate(
-			new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-		);
-		// var user=userRepository.findByEmail(request.getEmail()).orElseThrow();
-		// var jwtToken= jwtTokenHelper.generateToken(user);
-		// return JwtAuthResponse.builder()
-		// 								.token(jwtToken)
-		// 								.build();
+	public JwtAuthResponse authneticate(AuthenticationRequest request) throws Exception{
+		try {
+			authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+			);
+		} catch (BadCredentialsException e) {
+			throw new ApiException("Invalid username or password");
+		}
 		UserDetails userDetails= this.userDetailsService.loadUserByUsername(request.getEmail());
 		String token = this.jwtTokenHelper.generateToken(userDetails);
 		JwtAuthResponse response = new JwtAuthResponse();
