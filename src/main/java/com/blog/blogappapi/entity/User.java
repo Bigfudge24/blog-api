@@ -44,7 +44,7 @@ public class User implements UserDetails{
 	private String password;
 	@Column(name = "user_about")
 	private String about;
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Post> posts = new ArrayList<>();
 	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "uId"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
@@ -77,9 +77,9 @@ public class User implements UserDetails{
 //		this.email = email;
 //	}
 //
-//	public String getPassword() {
-//		return password;
-//	}
+	public String getPassword() {
+		return password;
+	}
 //
 //	public void setPassword(String password) {
 //		this.password = password;
@@ -124,9 +124,9 @@ public class User implements UserDetails{
 		return true;
 	}
 
-	@Override
-	public String getPassword() {
-		return this.getPassword();
-	}
+	// @Override
+	// public String getPassword() {
+	// 	return this.getPassword();
+	// }
 
 }

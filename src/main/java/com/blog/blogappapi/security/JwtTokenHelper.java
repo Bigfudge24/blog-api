@@ -20,7 +20,7 @@ public class JwtTokenHelper {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    private String secret = "jwtTokenKey";
+    private String secret = "635266546A576E5A7234753778214125442A472D4B6150645367566B58703273";
 
     public String getUserNameFromToken(String token) {
 

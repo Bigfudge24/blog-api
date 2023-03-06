@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.blogappapi.security.AuthenticationRequest;
 import com.blog.blogappapi.security.AuthenticationService;
 import com.blog.blogappapi.security.JwtAuthResponse;
+import com.blog.blogappapi.security.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -21,5 +22,11 @@ public class AuthController {
 		@RequestBody AuthenticationRequest request
 	){
 		return ResponseEntity.ok(service.authneticate(request));
+	}
+	@PostMapping("/register")
+	public ResponseEntity<JwtAuthResponse> register(
+		@RequestBody RegisterRequest request
+	){
+		return ResponseEntity.ok(service.register(request));
 	}
 }

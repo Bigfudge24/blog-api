@@ -11,6 +11,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,16 +32,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 			throws ServletException, IOException {
 		final String authHeader=request.getHeader("Authorization");
 		final String jwt;
-		final String userEmail;
+		String userEmail=null;
 		if(authHeader==null || !authHeader.startsWith("Bearer ")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 		jwt=authHeader.substring(7);
-		userEmail=jwtTokenHelper.getUserNameFromToken(jwt);
+		try {
+			userEmail=jwtTokenHelper.getUserNameFromToken(jwt);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Unable to get Jwt Token");
+		}catch(ExpiredJwtException e ){
+			System.out.println("Jwt token has expired");
+		}catch(MalformedJwtException e){
+			System.out.println("Invalid Jwt ");
+		}
 		if(userEmail != null && SecurityContextHolder.getContext().getAuthentication()==null) {
 			UserDetails userDetails=this.userDetailsService.loadUserByUsername(userEmail);
-			if(jwtTokenHelper.validateToken(jwt, userDetails)) {
+			if(this.jwtTokenHelper.validateToken(jwt, userDetails)) {
 				UsernamePasswordAuthenticationToken authToken=new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
 				authToken.setDetails(
 						new WebAuthenticationDetailsSource().buildDetails(request)

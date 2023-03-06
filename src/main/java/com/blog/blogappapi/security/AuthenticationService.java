@@ -1,7 +1,10 @@
 package com.blog.blogappapi.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,24 +21,37 @@ public class AuthenticationService {
 	private PasswordEncoder passwordEncoder;
 	private JwtTokenHelper jwtTokenHelper;
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private UserDetailsService userDetailsService;
 	
-	// public JwtAuthResponse register(RegisterRequest request) {
-	// 	var user= User.builder()
-	// 				.name(request.getName())
-	// 				.email(request.getEmail())
-	// 				.password(passwordEncoder.encode(request.getPassword()))
-	// 				.roles()
-	// 				.build();
+	public JwtAuthResponse register(RegisterRequest request) {
+		var user= User.builder()
+					.name(request.getName())
+					.email(request.getEmail())
+					.password(passwordEncoder.encode(request.getPassword()))
+					.build();
+			userRepository.save(user);
+		var jwtToken = jwtTokenHelper.generateToken(user);
+		return JwtAuthResponse.builder()
+										.token(jwtToken)
+										.build();
 					
-	// }
+	}
 	public JwtAuthResponse authneticate(AuthenticationRequest request){
 		authenticationManager.authenticate(
 			new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
 		);
-		var user=userRepository.findByEmail(request.getEmail()).orElseThrow();
-		var jwtToken= jwtTokenHelper.generateToken(user);
-		return JwtAuthResponse.builder()
-										.token(jwtToken)
-										.build();
+		// var user=userRepository.findByEmail(request.getEmail()).orElseThrow();
+		// var jwtToken= jwtTokenHelper.generateToken(user);
+		// return JwtAuthResponse.builder()
+		// 								.token(jwtToken)
+		// 								.build();
+		UserDetails userDetails= this.userDetailsService.loadUserByUsername(request.getEmail());
+		String token = this.jwtTokenHelper.generateToken(userDetails);
+		JwtAuthResponse response = new JwtAuthResponse();
+		response.setToken(token);
+		return response;
+
 	}
+
 }
