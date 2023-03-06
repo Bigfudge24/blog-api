@@ -29,9 +29,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class User implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,6 +123,9 @@ public class User implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
+
+    public void setPassword(String encode) {
+    }
 
 	// @Override
 	// public String getPassword() {
