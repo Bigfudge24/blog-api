@@ -17,7 +17,6 @@ import com.blog.blogappapi.repository.UserRepository;
 
 
 @Service
-@AllArgsConstructor
 public class AuthenticationService {
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
@@ -27,17 +26,25 @@ public class AuthenticationService {
 	private UserDetailsService userDetailsService;
 	
 	public JwtAuthResponse register(RegisterRequest request) {
-		var user= User.builder()
-					.name(request.getName())
-					.email(request.getEmail())
-					.password(passwordEncoder.encode(request.getPassword()))
-					.build();
-			userRepository.save(user);
-		var jwtToken = jwtTokenHelper.generateToken(user);
-		return JwtAuthResponse.builder()
-										.token(jwtToken)
-										.build();
-					
+//		var user= User.builder()
+//					.name(request.getName())
+//					.email(request.getEmail())
+//					.password(passwordEncoder.encode(request.getPassword()))
+//					.build();
+//			userRepository.save(user);
+//		var jwtToken = jwtTokenHelper.generateToken(user);
+//		return JwtAuthResponse.builder()
+//										.token(jwtToken)
+//										.build();
+		User user = new User();
+		user.setName(request.getName());
+		user.setEmail(request.getEmail());
+		user.setPassword(passwordEncoder.encode(request.getPassword()));
+		userRepository.save(user);
+		String jwtToken = jwtTokenHelper.generateToken(user);
+		JwtAuthResponse response = new JwtAuthResponse();
+		response.setToken(jwtToken);					
+		return response;
 	}
 	public JwtAuthResponse authneticate(AuthenticationRequest request) throws Exception{
 		try {
