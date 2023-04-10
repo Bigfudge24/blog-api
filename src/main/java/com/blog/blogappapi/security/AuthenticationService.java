@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
-import lombok.var;
 import com.blog.blogappapi.entity.User;
 import com.blog.blogappapi.exceptions.ApiException;
 import com.blog.blogappapi.repository.UserRepository;

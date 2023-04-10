@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.blog.blogappapi.BlogAppApiApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.555 s - in com.blog.blogappapi.BlogAppApiApplicationTests
